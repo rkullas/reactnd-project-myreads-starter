@@ -1,9 +1,9 @@
 import React from 'react';
-import * as BooksAPI from './BooksAPI'
+import {Route} from 'react-router-dom';
+import * as BooksAPI from './BooksAPI';
 import './App.css';
 import ListBooks from './ListBooks';
 import SearchBooks from './SearchBooks';
-import {Route} from 'react-router-dom'
 
 const converBooklistToObject = (books) => books.reduce((acc, book) => {
     const result = {...acc};
