@@ -3,6 +3,7 @@ import * as BooksAPI from './BooksAPI'
 import './App.css';
 import ListBooks from './ListBooks';
 import SearchBooks from './SearchBooks';
+import {Route} from 'react-router-dom'
 
 const converBooklistToObject = (books) => books.reduce((acc, book) => {
     const result = {...acc};
@@ -54,11 +55,12 @@ class BooksApp extends React.Component {
     render() {
         return (
             <div className="app">
-                {this.state.showSearchPage ? (
-                    <SearchBooks onCloseSearchClick={() => this.setState({showSearchPage: false})}/>
-                ) : (
+                <Route exact path='/' render={() => (
                     <ListBooks books={this.state.books} onSearchClick={() => this.setState({showSearchPage: true})}/>
-                )}
+                )}/>
+                <Route exact path='/search' render={() => (
+                    <SearchBooks onCloseSearchClick={() => this.setState({showSearchPage: false})}/>
+                )}/>
             </div>
         )
     }

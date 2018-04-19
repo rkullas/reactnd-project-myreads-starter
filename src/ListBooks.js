@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import BookShelf from './BookShelf';
+import { Link } from 'react-router-dom';
 
-const ListBooks = ({books, onSearchClick}) => (
+const ListBooks = ({books}) => (
     <div className="list-books">
         <div className="list-books-title">
             <h1>MyReads</h1>
@@ -15,7 +16,9 @@ const ListBooks = ({books, onSearchClick}) => (
             </div>
         </div>
         <div className="open-search">
-            <a onClick={onSearchClick}>Add a book</a>
+            <Link to='/search'>
+                Add a book
+            </Link>
         </div>
     </div>
 );
