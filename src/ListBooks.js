@@ -24,8 +24,7 @@ const ListBooks = ({books}) => (
 );
 
 ListBooks.propTypes = {
-    books: PropTypes.object.isRequired,
-    onSearchClick: PropTypes.func.isRequired
+    books: PropTypes.object.isRequired
 };
 
 export default ListBooks;
