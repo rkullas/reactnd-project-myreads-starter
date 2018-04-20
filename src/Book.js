@@ -1,7 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Book = ({book}) => (
+const shelfs = [
+    {
+        id: "currentlyReading",
+        name: "Currently Reading"
+    },
+    {
+        id: "wantToRead",
+        name: "Want to Read"
+    },
+    {
+        id: "read",
+        name: "Read"
+    },
+    {
+        id: "none",
+        name: "None"
+    }
+];
+
+const getCheckmark = (shelfWithCheckmark, shelf) => shelfWithCheckmark && shelfWithCheckmark === shelf.id && '\u2713';
+
+const Book = ({book, shelfWithCheckmark, updateShelf}) => (
     <div className="book">
         <div className="book-top">
             <div className="book-cover" style={{
@@ -12,11 +33,13 @@ const Book = ({book}) => (
             <div className="book-shelf-changer">
                 <select>
                     <option value="none" disabled>Move to...</option>
-                    <option value="currentlyReading">Currently Reading
-                    </option>
-                    <option value="wantToRead">Want to Read</option>
-                    <option value="read">Read</option>
-                    <option value="none">None</option>
+                    {shelfs.map(shelf => (
+                        <option key={shelf.id}
+                                value={shelf.id}
+                                onClick={() => updateShelf(book, shelf.id)}>
+                            {getCheckmark(shelfWithCheckmark, shelf)} {shelf.name}
+                        </option>
+                    ))}
                 </select>
             </div>
         </div>
@@ -26,7 +49,9 @@ const Book = ({book}) => (
 );
 
 Book.propTypes = {
-  book: PropTypes.object.isRequired
+    book: PropTypes.object.isRequired,
+    shelfWithCheckmark: PropTypes.string,
+    updateShelf: PropTypes.func.isRequired
 };
 
 export default Book;

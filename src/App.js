@@ -5,54 +5,63 @@ import './App.css';
 import ListBooks from './ListBooks';
 import SearchBooks from './SearchBooks';
 
-const converBooklistToObject = (books) => books.reduce((acc, book) => {
-    const result = {...acc};
-    switch (book.shelf) {
-        case 'currentlyReading':
-            result.currentlyReading.push(book);
-            break;
-        case 'wantToRead':
-            result.wantToRead.push(book);
-            break;
-        case 'read':
-            result.read.push(book);
-            break;
-        default:
-            console.log(`UNKONW STATE: ${book.shelf}`);
-    }
-    return result;
-}, {
-    currentlyReading: [],
-    wantToRead: [],
-    read: []
-});
-
 class BooksApp extends React.Component {
     state = {
-        books: {
-            currentlyReading: [],
-            wantToRead: [],
-            read: []
-        }
+        books: []
     };
 
     componentDidMount() {
         BooksAPI.getAll()
-            .then(converBooklistToObject)
             .then((books) => {
-                console.log(books);
                 this.setState({books});
             });
     }
+
+    updateExistinBook = (book, newShelf) => {
+        BooksAPI.update(book, newShelf);
+        book.shelf = newShelf;
+        this.setState({
+            books: this.state.books
+        });
+    };
+
+    addNewBook = (newBook, newShelf) => {
+        BooksAPI
+            .update(newBook, newShelf)
+            .then(() => {
+                BooksAPI
+                    .get(newBook.id)
+                    .then(loadedBook => {
+                        this.state.books.push(loadedBook);
+                        this.setState({
+                            books: this.state.books
+                        });
+                    });
+            });
+    };
+
+    findBook = id => this.state.books.find(book => book.id === id);
+
+    updateShelf = (updatedBook, newShelf) => {
+        if (updatedBook.shelf !== newShelf) {
+            const book = this.findBook(updatedBook.id);
+            if (book) {
+                this.updateExistinBook(book, newShelf);
+            }
+            else {
+                this.addNewBook(updatedBook, newShelf);
+            }
+        }
+    };
 
     render() {
         return (
             <div className="app">
                 <Route exact path='/' render={() => (
-                    <ListBooks books={this.state.books} />
+                    <ListBooks books={this.state.books} updateShelf={this.updateShelf}/>
                 )}/>
                 <Route exact path='/search' render={() => (
-                    <SearchBooks />
+                    <SearchBooks books={this.state.books} updateShelf={this.updateShelf}/>
                 )}/>
             </div>
         )
