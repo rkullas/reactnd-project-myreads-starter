@@ -18,11 +18,15 @@ class BooksApp extends React.Component {
     }
 
     updateExistinBook = (book, newShelf) => {
-        BooksAPI.update(book, newShelf);
-        book.shelf = newShelf;
-        this.setState({
-            books: this.state.books
-        });
+        BooksAPI
+            .update(book, newShelf)
+            .then(() => {
+                book.shelf = newShelf;
+                this.setState({
+                    books: this.state.books
+                });
+            });
+
     };
 
     addNewBook = (newBook, newShelf) => {

@@ -15,6 +15,9 @@ const categorizeBooks = (books) => books.reduce((acc, book) => {
         case 'read':
             result.read.push(book);
             break;
+        case 'none':
+            //ignore, because they will not be displayed
+            break;
         default:
             console.log(`UNKONW STATE: ${book.shelf}`);
     }
