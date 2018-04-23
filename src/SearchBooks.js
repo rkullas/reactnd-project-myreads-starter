@@ -27,9 +27,11 @@ class SearchBooks extends React.Component {
             BooksAPI
                 .search(newQuery)
                 .then(books => {
+                    let foundbooks = [];
                     if (this.state.query !== '' && Array.isArray(books)) {
-                        this.setState({foundbooks: books});
+                        foundbooks = books;
                     }
+                    this.setState({foundbooks});
                 });
         }
         else {
@@ -58,7 +60,8 @@ class SearchBooks extends React.Component {
                     <ol className="books-grid">
                         {!!this.state.foundbooks && this.state.foundbooks.map(book => (
                             <li key={book.id}>
-                                <Book book={book} selectedShelf={bookIdsToShelf[book.id] || 'none'} updateShelf={updateShelf}/>
+                                <Book book={book} selectedShelf={bookIdsToShelf[book.id] || 'none'}
+                                      updateShelf={updateShelf}/>
                             </li>
                         ))}
                     </ol>
