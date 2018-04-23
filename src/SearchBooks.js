@@ -58,7 +58,7 @@ class SearchBooks extends React.Component {
                     <ol className="books-grid">
                         {!!this.state.foundbooks && this.state.foundbooks.map(book => (
                             <li key={book.id}>
-                                <Book book={book} shelfWithCheckmark={bookIdsToShelf[book.id] || 'none'} updateShelf={updateShelf}/>
+                                <Book book={book} selectedShelf={bookIdsToShelf[book.id] || 'none'} updateShelf={updateShelf}/>
                             </li>
                         ))}
                     </ol>

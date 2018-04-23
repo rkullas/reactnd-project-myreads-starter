@@ -9,7 +9,7 @@ const BookShelf = ({books, title, updateShelf}) => (
             <ol className="books-grid">
                 {books && books.map(book => (
                     <li key={book.id}>
-                        <Book book={book} shelfWithCheckmark={book.shelf} updateShelf={updateShelf}/>
+                        <Book book={book} selectedShelf={book.shelf} updateShelf={updateShelf}/>
                     </li>
                 ))}
             </ol>
